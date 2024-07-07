@@ -21,49 +21,50 @@ public class RecursiveBinarySearchTree<T extends Comparable<? super T>> implemen
 
     @Override
     public boolean insert(T element) {
+        var inserted = insertIntoRoot(element);
+        if (inserted) {
+            size++;
+        }
+        return inserted;
+    }
+
+    private boolean insertIntoRoot(T element) {
         if (root == null) {
             root = Node.valueOf(element);
-            size++;
             return true;
         } else {
-            return insertIntoTree(root, element, null);
+            return insertIntoTree(root, element);
         }
     }
 
-    private boolean insertIntoTree(Node<T> node, T element, Boolean isLeftHeight) {
+    private boolean insertIntoTree(Node<T> node, T element) {
         var compareResult = node.getElement().compareTo(element);
         if (compareResult == 0) { // equals
             return false;
         } else if (compareResult > 0) { // go left
-            if (isLeftHeight == null) {
-                isLeftHeight = true;
-            }
-            return insertIntoLeftSubTree(node, element, isLeftHeight);
+            return insertIntoLeftSubTree(node, element);
         } else { // go right
-            if (isLeftHeight == null) {
-                isLeftHeight = false;
-            }
-            return insertIntoRightSubTree(node, element, isLeftHeight);
+            return insertIntoRightSubTree(node, element);
         }
     }
 
-    private boolean insertIntoLeftSubTree(Node<T> node, T element, boolean isLeftHeight) {
+    private boolean insertIntoLeftSubTree(Node<T> node, T element) {
         if (node.getLeftChild() == null) {
             node.setLeftChild(Node.valueOf(element));
-            increaseAfterInsert(node.getRightChild(), isLeftHeight);
+            //increaseAfterInsert(node.getRightChild(), isLeftHeight);
             return true;
         } else {
-            return insertIntoTree(node.getLeftChild(), element, isLeftHeight);
+            return insertIntoTree(node.getLeftChild(), element);
         }
     }
 
-    private boolean insertIntoRightSubTree(Node<T> node, T element, boolean isLeftHeight) {
+    private boolean insertIntoRightSubTree(Node<T> node, T element) {
         if (node.getRightChild() == null) {
             node.setRightChild(Node.valueOf(element));
-            increaseAfterInsert(node.getLeftChild(), isLeftHeight);
+            //increaseAfterInsert(node.getLeftChild(), isLeftHeight);
             return true;
         } else {
-            return insertIntoTree(node.getRightChild(), element, isLeftHeight);
+            return insertIntoTree(node.getRightChild(), element);
         }
     }
 
@@ -93,7 +94,16 @@ public class RecursiveBinarySearchTree<T extends Comparable<? super T>> implemen
 
     @Override
     public int height() {
-        return Math.max(leftHeight, rightHeight);
+        //return Math.max(leftHeight, rightHeight);
+        return height(root);
+    }
+
+    private int height(Node<T> node) {
+        if (node == null) {
+            return 0;
+        } else {
+            return 1 + Math.max(height(node.getLeftChild()), height(node.getRightChild()));
+        }
     }
 
     private boolean find(Node<T> node, T element) {

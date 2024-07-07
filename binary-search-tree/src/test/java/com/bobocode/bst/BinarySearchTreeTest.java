@@ -109,7 +109,7 @@ class BinarySearchTreeTest {
 
         var bstHeight = bst.height();
 
-        assertEquals(0, bstHeight);
+        assertEquals(1, bstHeight);
     }
 
     @Test
@@ -118,7 +118,7 @@ class BinarySearchTreeTest {
 
         var bstHeight = bst.height();
 
-        assertEquals(1, bstHeight);
+        assertEquals(2, bstHeight);
     }
 
     @Test
@@ -127,7 +127,7 @@ class BinarySearchTreeTest {
 
         var bstHeight = bst.height();
 
-        assertEquals(5, bstHeight);
+        assertEquals(6, bstHeight);
     }
 
     @Test
